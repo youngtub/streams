@@ -45,7 +45,7 @@ class AHA extends React.Component {
                 <br/>
                 <Accordion>
                   {main.activities.map((act, j) => (
-                    <Panel header={act.title} collapsible={true} eventKey={`${i}${j}`}>
+                    <Panel header={act.title} collapsible={true} eventKey={`${i}${j}`} key={j}>
                       {act.description}
                       <hr/>
                       {act.date} - {act.reference}

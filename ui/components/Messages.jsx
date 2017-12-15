@@ -14,7 +14,7 @@ class Messages extends React.Component {
 
   componentWillMount() {
     this.setState({
-      messages: dummy
+      messages: []
     })
   }
 
@@ -40,7 +40,7 @@ class Messages extends React.Component {
         <h3 className='center'>Messages</h3>
         <hr/>
         <Comment.Group>
-          {this.state.messages.map((msg, i) => (
+          {this.state.messages.length > 0 ? this.state.messages.map((msg, i) => (
             <Comment>
               <Comment.Avatar src={avatars[msg.from]} />
               <Comment.Content>
@@ -51,10 +51,10 @@ class Messages extends React.Component {
                 <Comment.Text>{msg.text}</Comment.Text>
               </Comment.Content>
             </Comment>
-          ))}
+          )) : ''}
           <Form reply>
                 <Form.TextArea style={replyStyle} onChange={this.handleChange} value={this.state.reply}/>
-                <Button content='Reply' labelPosition='left' icon='edit' primary onClick={this.submit}/>
+                <Button content='Send' labelPosition='left' icon='edit' primary onClick={this.submit}/>
           </Form>
         </Comment.Group>
       </Grid>

@@ -14,10 +14,26 @@ const Header = (props) => {
         <br/>
         <h1 className='mont'>StreamsCC</h1>
       </Col>
-      <Col md={7}></Col>
-      <Col md={2} className='right'>
+      <Col md={5}></Col>
+      <Col md={4} className='right'>
         <br/><br/>
-        <Button onClick={props.toggleModal}>Log in/Sign up</Button>
+        {props.user.loggedIn ? (
+          props.user.loggedIn.role === 'student' ? (
+            <Row>
+              <Button>Account</Button>
+              <Button>Backpack</Button>
+              <Button>Logout</Button>
+            </Row>
+          ) : (
+            <Row>
+              <Button>Account</Button>
+              <Button>Classroom</Button>
+              <Button>Logout</Button>
+            </Row>
+          )
+        ) : (
+          <Button onClick={props.toggleModal}>Log in/Sign up</Button>
+        )}
       </Col>
     </Grid>
   )

@@ -3,13 +3,31 @@ const router = require('express').Router();
 const axios = require('axios');
 const bcrypt = require('bcrypt');
 const models = require('./db/models/core.js');
+const overviewRoutes = require('./sectionRoutes/overviewRoutes.js');
+const schoolRoutes = require('./sectionRoutes/schoolRoutes.js');
+
 const Student = models.Student;
 const Teacher = models.Teacher;
+
 const Enrollment = models.Enrollment;
-const Goal = models.Goal;
 const Op = models.Op;
 const Participation = models.Participation;
 const Org = models.Org;
+
+const Goal = models.Goal;
+const Value = models.Value;
+const Personality = models.Personality;
+const Subjects = models.Subjects;
+const Leadership = models.Leadership;
+const Strength = models.Strength;
+
+router.post('/addOverview', overviewRoutes.addOverview)
+
+router.get('/getOverview', overviewRoutes.getOverview)
+
+router.post('/addSchool', schoolRoutes.addSchool)
+
+router.get('/getSchool', schoolRoutes.getSchool)
 
 router.get('/auth', (req, res) => {
   let name = req.query.name;

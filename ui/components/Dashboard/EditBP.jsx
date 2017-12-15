@@ -21,7 +21,7 @@ class EditBP extends React.Component {
 
   handleChange = (val, key, i) => {
     var old = this.state.edit;
-    old[key][i] = val;
+    old[key][i].title = val;
     this.setState({
       edit: old
     }, () => {
@@ -31,7 +31,7 @@ class EditBP extends React.Component {
 
   addField = (key) => {
     var old = this.state.edit;
-    old[key].push('');
+    old[key].push({title: '', version: 0});
     this.setState({
       edit: old
     })
@@ -43,7 +43,7 @@ class EditBP extends React.Component {
 
   render() {
     return (
-      <Modal show={this.props.showEdit} onHide={this.props.toggleEdit} style={editStyle}>
+      <Modal show={this.props.showEdit} onHide={this.props.toggleEdit} style={editStyle} bsSize='large'>
         <Modal.Header closeButton>
           <Modal.Title>Edit</Modal.Title>
         </Modal.Header>
@@ -55,7 +55,7 @@ class EditBP extends React.Component {
                 <Row> {key.slice(0, 1).toUpperCase() + key.slice(1)} </Row>
                   {this.state.edit[key].map((item, i) => (
                     <Row>
-                      <FormControl type='text' value={this.state.edit[key][i]}
+                      <FormControl type='text' value={this.state.edit[key][i].title}
                         onChange={(e) => this.handleChange(e.target.value, key, i)}/>
                       <br/>
                     </Row>
@@ -64,13 +64,13 @@ class EditBP extends React.Component {
               </Col>
               ))}
             </Form>
-            <hr/>
-            <Row className='center'>
-              <Button onClick={this.props.toggleEdit}>Cancel</Button>
-              <Button primary onClick={()=>this.submit()}>Done</Button>
-            </Row>
+            <br/><br/><br/><br/><br/><br/>
           </Row>
         </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.props.toggleEdit}>Cancel</Button>
+          <Button primary onClick={()=>this.submit()}>Done</Button>
+        </Modal.Footer>
       </Modal>
     )
   }

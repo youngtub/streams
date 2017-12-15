@@ -16,7 +16,7 @@ import Messages from './Messages.jsx';
 import Header from './Header.jsx';
 import Login from './Login.jsx';
 
-export class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,7 +58,7 @@ export class App extends React.Component {
             this.props.user.loggedIn.role === 'student' ? (
               <Row>
                 <Col md={9}>
-                  <Student />
+                  <Student student={this.props.user.loggedIn}/>
                 </Col>
 
                 <Col md={3}>

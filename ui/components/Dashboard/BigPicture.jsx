@@ -1,6 +1,7 @@
 import React from 'react';
 import {Grid, Row, Col, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
 import {List, Button, Icon, Image, Popup} from 'semantic-ui-react';
+import axios from 'axios';
 
 import EditBP from './EditBP.jsx'
 
@@ -17,13 +18,28 @@ class BigPicture extends React.Component {
     }
   }
 
-  componentWillMount() {
-    this.setState({
-      overview: [''],
-      school: ['']
-    }, () => {
-      // console.log('state in big picture: ', this.state)
+  componentDidMount() {
+    var objForState = {};
+    let paramsO = {section: 'overview', id: this.props.student.id}
+    return axios.get('/api/student/getOverview', {params: paramsO})
+    .then((res) => {
+      console.log('res from overview: ', res.data)
+      objForState['overview'] = res.data;
+      let paramsS = {section: 'school', id: this.props.student.id}
+      return axios.get('/api/student/getSchool', {params: paramsS})
+      .then((respo) => {
+        console.log('res from school: ', respo.data)
+        objForState['school'] = respo.data;
+        this.setState({
+          overview: objForState.overview,
+          school: objForState.school
+        }, () => {
+          console.log('state set in BP: ', this.state)
+        })
+      })
+      .catch(err => console.log('err in fetch: ', err))
     })
+    .catch(err => console.log('err in fetch: ', err))
   }
 
   add = (section) => {
@@ -48,6 +64,18 @@ class BigPicture extends React.Component {
     this.setState({
       [section]: obj,
       showEdit: false
+    }, () => {
+      let id = this.props.student.id
+      let body = {section, obj, id}
+      let qs = {
+        overview: 'addOverview',
+        school: 'addSchool'
+      }
+      let q = '/api/student/' + qs[section];
+      return axios.post(q, body)
+      .then((res) => {
+        console.log('res from student add sec: ', res)
+      })
     })
   }
 
@@ -73,20 +101,20 @@ class BigPicture extends React.Component {
            <Col md={1}></Col>
            <Col md={2}>
              <br/>
-             <h3>Career Goals</h3>
+             <h3>Goals</h3>
              <List bulleted>
                {this.state.overview.goals ? this.state.overview.goals.map((goal, i) => (
-                 <List.Item key={i}>{goal}</List.Item>
+                 <List.Item key={i}>{goal.title}</List.Item>
                )) : ''}
              </List>
            </Col>
 
            <Col md={2}>
              <br/>
-             <h3>Core Values</h3>
+             <h3>Values</h3>
              <List bulleted>
                {this.state.overview.values ? this.state.overview.values.map((val, i) => (
-                 <List.Item key={i}>{val}</List.Item>
+                 <List.Item key={i}>{val.title}</List.Item>
                )) : ''}
              </List>
            </Col>
@@ -96,7 +124,7 @@ class BigPicture extends React.Component {
              <h3>Personality</h3>
              <List bulleted>
                {this.state.overview.personality ? this.state.overview.personality.map((per, i) => (
-                 <List.Item key={i}>{per}</List.Item>
+                 <List.Item key={i}>{per.title}</List.Item>
                )): ''}
              </List>
            </Col>
@@ -140,7 +168,7 @@ class BigPicture extends React.Component {
            <h3>Subjects</h3>
            <List bulleted>
              {this.state.school.subjects ? this.state.school.subjects.map((goal, i) => (
-               <List.Item key={i}>{goal}</List.Item>
+               <List.Item key={i}>{goal.title}</List.Item>
              )) : ''}
            </List>
          </Col>
@@ -150,33 +178,21 @@ class BigPicture extends React.Component {
            <h3>Leadership</h3>
            <List bulleted>
              {this.state.school.leadership ? this.state.school.leadership.map((val, i) => (
-               <List.Item key={i}>{val}</List.Item>
+               <List.Item key={i}>{val.title}</List.Item>
              )):''}
            </List>
          </Col>
 
          <Col md={2}>
            <br/>
-           <h3>Scores</h3>
-             <ToggleButtonGroup
-                     type="radio"
-                     name='scores'
-                     value={this.state.test}
-                     onChange={this.testChange}
-                     className='center'
-                   >
-                <ToggleButton value={0}>SAT</ToggleButton>
-                <ToggleButton value={1}>ACT</ToggleButton>
-              </ToggleButtonGroup>
-           {/*<List bulleted>
-             {this.state.school.scores[this.state.test].map((score, i) => (
-               <List.Item key={i}>{score.section + ': ' + score.score}</List.Item>
-             ))}
-             {this.state.school.scores[this.state.test].length < limits[this.state.test] ? (
-               <Button icon='edit' onClick={this.add}/>
-             ) : ''}
-           </List>*/}
+           <h3>Strengths</h3>
+           <List bulleted>
+             {this.state.school.strengths ? this.state.school.strengths.map((val, i) => (
+               <List.Item key={i}>{val.title}</List.Item>
+             )):''}
+           </List>
          </Col>
+
 
          <Col md={2} className='center'>
            <br/><br/><br/>
@@ -220,31 +236,24 @@ const limits = {
 const dummyData = {
   overview: {
     goals: [
-    'MD-PDH',
-    'Surgeon',
-    'Cancer Doctor'
+    {title: '', version: 0}
   ],
   values: [
-    'Mental and Physical Well-Being',
-    'Accessiblity'
+    {title: '', version: 0}
   ],
   personality: [
-    'Soft spoken',
-    'Friendly',
-    'Caring'
+    {title: '', version: 0}
   ]
 },
 school: {
   subjects: [
-    'Biology - HL',
-    'Chemistry - HL',
-    'Math - HL',
-    'English - SL',
-    'Spanish - SL',
-    'Economics - SL'
+    {title: '', version: 0}
   ],
   leadership: [
-    'Relay for Life (Organizer)'
+    {title: '', version: 0}
+  ],
+  strengths: [
+    {title: '', version: 0}
   ],
   scores: [
     [

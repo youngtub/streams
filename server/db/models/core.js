@@ -41,12 +41,71 @@ Enrollment.sync({force: false});
 
 const Goal = db.define('goal', {
   title:  Sequelize.STRING,
-  field: Sequelize.STRING
+  field: Sequelize.STRING,
+  version: {type: Sequelize.INTEGER, defaultValue: 0}
 });
 
 Goal.belongsTo(Student, {through: 'studentId'})
 
 Goal.sync({force: false});
+
+//values
+
+const Value = db.define('value', {
+  title:  Sequelize.STRING,
+  version: {type: Sequelize.INTEGER, defaultValue: 0}
+});
+
+Value.belongsTo(Student, {through: 'studentId'})
+
+Value.sync({force: false});
+
+//values
+
+const Personality = db.define('personality', {
+  title:  Sequelize.STRING,
+  version: {type: Sequelize.INTEGER, defaultValue: 0}
+});
+
+Personality.belongsTo(Student, {through: 'studentId'})
+
+Personality.sync({force: false});
+
+// Subjects
+
+const Subject = db.define('subject', {
+  title: Sequelize.STRING,
+  level: Sequelize.STRING,
+  version: {type: Sequelize.INTEGER, defaultValue: 0}
+});
+
+Subject.belongsTo(Student, {through: 'studentId'})
+
+Subject.sync({force: false});
+
+// Leadership
+
+const Leadership = db.define('leadership', {
+  title: Sequelize.STRING,
+  role: Sequelize.STRING,
+  version: {type: Sequelize.INTEGER, defaultValue: 0}
+});
+
+Leadership.belongsTo(Student, {through: 'studentId'})
+
+Leadership.sync({force: false});
+
+// Strengths
+
+const Strength = db.define('strength', {
+  title: Sequelize.STRING,
+  reason: Sequelize.STRING,
+  version: {type: Sequelize.INTEGER, defaultValue: 0}
+});
+
+Strength.belongsTo(Student, {through: 'studentId'})
+
+Strength.sync({force: false});
 
 // Orgs
 
@@ -84,4 +143,9 @@ Participation.sync({force: false});
 
 // enrollment
 
-module.exports = {Student, Teacher, Enrollment, Goal, Org, Op, Participation};
+module.exports = {
+  Student, Teacher, Enrollment,
+  Goal, Value, Personality,
+  Subject, Leadership, Strength,
+  Org, Op, Participation
+};
