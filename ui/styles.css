@@ -1,0 +1,48 @@
+body {
+  /* font-family: 'Montserrat', 'Gotham', sans-serif; */
+  background-color: #BBBBBB;
+  background-size: 100%;
+}
+
+.bg {
+  /* background-color: #BBBBBB;
+  background-size: 100%; */
+}
+
+#tabs {
+  background-color: white;
+}
+
+.list {
+  font-size: 1.3em;
+}
+
+hr {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+  align: center;
+  /*width: 75%;*/
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.mont{
+  font-family: 'Montserrat';
+}
+
+@font-face {
+  font-family: 'Smaragd';
+  src: url("Smaragd.ttf") format("opentype");
+}
+
+.Balmain {
+  font-family: 'Smaragd';
+  font-weight: normal;
+}
