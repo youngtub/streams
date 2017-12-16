@@ -30,9 +30,13 @@ router.post('/addSchool', schoolRoutes.addSchool)
 
 router.get('/getSchool', schoolRoutes.getSchool)
 
-router.post('/addActivities', activityRoutes.addActivities)
+router.post('/addActivity', activityRoutes.addActivity)
 
-router.get('/getActivities', activityRoutes.getActivities)
+router.get('/getAllActivities', activityRoutes.getAllActivities)
+
+router.post('/addMain', activityRoutes.addMain)
+
+router.get('/getMains', activityRoutes.getMains)
 
 router.get('/auth', (req, res) => {
   let name = req.query.name;

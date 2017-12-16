@@ -130,9 +130,19 @@ const Activity = db.define('activity', {
 });
 
 Activity.belongsTo(Org, {through: 'orgId'})
+Activity.belongsTo(Main, {through: 'mainId'})
 Activity.belongsTo(Student, {through: 'studentId'})
 
 Activity.sync({force: false});
+
+// Main
+
+const Main = db.define('main', {
+  title:  Sequelize.STRING,
+});
+
+Main.belongsTo(Student, {through: 'studentId'})
+Main.sync({force: false});
 
 // participation
 
@@ -149,5 +159,5 @@ module.exports = {
   Student, Teacher, Enrollment,
   Goal, Value, Personality,
   Subject, Leadership, Strength,
-  Org, Activity, Participation
+  Org, Activity, Main, Participation
 };
