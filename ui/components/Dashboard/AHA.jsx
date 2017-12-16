@@ -2,14 +2,18 @@ import React from 'react';
 import {Grid, Row, Col, ToggleButtonGroup, ToggleButton, Accordion, Panel} from 'react-bootstrap';
 import {List, Button, Icon, Image, Popup, Item} from 'semantic-ui-react';
 
+import EditAHAPrimary from './EditAHAPrimary.jsx';
+import EditAHAAdd from './EditAHAAdd.jsx';
+
 class AHA extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       additional: [],
       mains: [],
-      showEdit: false,
-      editing: ''
+      showEditP: false,
+      showEditA: false,
+      editing: []
     }
   }
 
@@ -19,6 +23,37 @@ class AHA extends React.Component {
       additional: da
     }, () => {
       // console.log('state in aha: ', this.state)
+    })
+  }
+
+  openEdit = (val) => {
+    var editing; val === 0 ? editing = this.state.mains : editing = this.state.additional;
+    var showEditP; val === 0 ? showEditP = true : showEditP = false;
+    this.setState({editing}, () => {
+      this.setState({showEditP, showEditA: !showEditP})
+    })
+  }
+
+  closeEdit = () => {
+    this.setState({showEditP: false, showEditA: false})
+  }
+
+  editCb = (arr, section) => {
+    this.setState({
+      [section]: arr
+    }, () => {
+      this.closeEdit()
+      // let id = this.props.student.id
+      // let body = {section, obj, id}
+      // let qs = {
+      //   overview: 'addOverview',
+      //   school: 'addSchool'
+      // }
+      // let q = '/api/student/' + qs[section];
+      // return axios.post(q, body)
+      // .then((res) => {
+      //   console.log('res from student add sec: ', res)
+      // })
     })
   }
 
@@ -39,7 +74,6 @@ class AHA extends React.Component {
                     <h4 className='center'>{main.title}</h4>
                   </Col>
                   <Col md={4} className='right'>
-                    <Button icon='edit' size='small'/>
                   </Col>
                 </Row>
                 <br/>
@@ -55,6 +89,9 @@ class AHA extends React.Component {
                 </Accordion>
               </Row>
             ))}
+            <Row className='center'>
+              <Button icon='edit' size='small' onClick={()=>this.openEdit(0)}/>
+            </Row>
             {this.state.mains.length < 3 ? (
               <Row className='center'>
                 <hr/>
@@ -86,13 +123,17 @@ class AHA extends React.Component {
               ))}
             </Item.Group>
             <Row className='center'>
-              <Button icon='edit' size='small'/>
-              <Button icon='plus' size='small'/>
+              <Button icon='edit' size='small' onClick={()=>this.openEdit(1)}/>
+              <Button icon='plus' size='small' onClick={()=>this.openEdit(1)}/>
             </Row>
           </Col>
           <Col md={1}></Col>
         </Row>
         <br/><br/>
+        {this.state.showEditP ? <EditAHAPrimary showEdit={this.state.showEditP} editing={this.state.editing}
+          closeEdit={this.closeEdit} editCb={this.editCb} /> : ''}
+        {this.state.showEditA ? <EditAHAAdd showEdit={this.state.showEditA} editing={this.state.editing}
+          closeEdit={this.closeEdit} editCb={this.editCb} /> : ''}
       </Grid>
     )
   }

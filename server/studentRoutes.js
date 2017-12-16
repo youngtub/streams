@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const models = require('./db/models/core.js');
 const overviewRoutes = require('./sectionRoutes/overviewRoutes.js');
 const schoolRoutes = require('./sectionRoutes/schoolRoutes.js');
+const activityRoutes = require('./sectionRoutes/activityRoutes.js');
 
 const Student = models.Student;
 const Teacher = models.Teacher;
@@ -28,6 +29,10 @@ router.get('/getOverview', overviewRoutes.getOverview)
 router.post('/addSchool', schoolRoutes.addSchool)
 
 router.get('/getSchool', schoolRoutes.getSchool)
+
+router.post('/addActivities', activityRoutes.addActivities)
+
+router.get('/getActivities', activityRoutes.getActivities)
 
 router.get('/auth', (req, res) => {
   let name = req.query.name;

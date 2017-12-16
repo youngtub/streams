@@ -117,18 +117,22 @@ const Org = db.define('org', {
 
 Org.sync({force: false});
 
-// Ops
+// Activity
 
-const Op = db.define('op', {
+const Activity = db.define('activity', {
   title:  Sequelize.STRING,
-  type: Sequelize.STRING,
+  description: Sequelize.STRING,
+  date: Sequelize.DATE,
+  reference: Sequelize.STRING,
   location: Sequelize.STRING,
-  ongoing: Sequelize.BOOLEAN
+  ongoing: Sequelize.BOOLEAN,
+  type: Sequelize.STRING
 });
 
-Op.belongsTo(Org, {through: 'orgId'})
+Activity.belongsTo(Org, {through: 'orgId'})
+Activity.belongsTo(Student, {through: 'studentId'})
 
-Op.sync({force: false});
+Activity.sync({force: false});
 
 // participation
 
@@ -136,16 +140,14 @@ const Participation = db.define('participation', {
   status:  Sequelize.STRING,
 });
 
-Participation.belongsTo(Op, {through: 'opId'})
+Participation.belongsTo(Activity, {through: 'activityId'})
 Participation.belongsTo(Student, {through: 'studentId'})
 
 Participation.sync({force: false});
-
-// enrollment
 
 module.exports = {
   Student, Teacher, Enrollment,
   Goal, Value, Personality,
   Subject, Leadership, Strength,
-  Org, Op, Participation
+  Org, Activity, Participation
 };
