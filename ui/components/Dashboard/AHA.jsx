@@ -170,13 +170,13 @@ class AHA extends React.Component {
               </Row>
             ))}
             <Row className='center'>
-              <Button icon='plus' size='small' onClick={()=>this.openEdit(0, i)}/>
+              <Button icon='plus' size='small' onClick={()=>this.openEdit(0)}/>
             </Row>
             {this.state.mains.length < 3 ? (
               <Row className='center'>
                 <hr/>
                 You are {3 - this.state.mains.length} {this.state.mains.length === 1 ? 'activities' : 'activity'} short!
-                Click <Button icon='plus' size='mini'/> to add
+                Click <Button icon='plus' size='mini' onClick={()=>this.openEdit(0)}/> to add
               </Row>
             ) : ''}
           </Col>
@@ -207,7 +207,7 @@ class AHA extends React.Component {
             </Row>
           </Col>
           <Col md={2}>
-            <Button content='Add Activity' icon='plus' onClick={()=>this.openEdit(1, 'add')} />
+            <Button content='Add Activity' icon='plus' color='blue' onClick={()=>this.openEdit(1, 'add')} />
           </Col>
         </Row>
         <br/><br/>

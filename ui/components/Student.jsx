@@ -34,9 +34,9 @@ class Student extends React.Component {
               <Tab eventKey={2} title="AHA Moments">
                 <AHA student={this.props.user.loggedIn}/>
               </Tab>
-              <Tab eventKey={3} title="Application">
+              {/*<Tab eventKey={3} title="Application">
                 apps
-              </Tab>
+              </Tab>*/}
           </Tabs>
         </Row>
 
