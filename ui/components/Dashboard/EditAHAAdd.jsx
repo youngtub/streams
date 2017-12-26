@@ -1,13 +1,18 @@
 import React from 'react';
-import {Grid, Row, Col, Modal, FormGroup, FormControl} from 'react-bootstrap';
+import {Grid, Row, Col, Modal, FormGroup, FormControl,
+  ControlLabel, Carousel, ToggleButtonGroup, ToggleButton,
+  DropdownButton, MenuItem } from 'react-bootstrap';
 import {Button, Icon, Image, Input, List, Form} from 'semantic-ui-react';
-import Carousel from 'nuka-carousel'
+import capitalize from 'capitalize';
+// import Carousel from 'nuka-carousel'
 
 class EditAHAAdd extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      edit: []
+      edit: [],
+      activeIndex: 0,
+      direction: null
     }
   }
 
@@ -26,21 +31,33 @@ class EditAHAAdd extends React.Component {
     this.setState({
       edit: old
     }, () => {
-      // console.log('test: ', this.state.edit[key][i])
+      console.log('type: ', this.state.edit[i][key])
     })
   };
 
+  carouselChange = (activeIndex, e) => {
+    this.setState({
+      activeIndex, direction: e.direction
+    })
+  }
+
   addActivity = () => {
     var oldEdit = this.state.edit.slice();
-    let newBlank = {title: '', description: '', date: '', reference: ''}
+    let newInd = oldEdit.length;
+    let newBlank = {id: 'notyet', title: `Activity ${newInd}`, description: '...', date: '...', reference: '...', location: '...', ongoing: '', type: ''}
     oldEdit.push(newBlank);
     this.setState({
-      edit: oldEdit
+      edit: oldEdit,
+      activeIndex: newInd
     })
   }
 
   submit = () => {
-    this.props.editCb(this.state.edit, 'additional')
+    this.props.editingMainActivities ? (
+      this.props.editMainActivities(this.state.edit)
+    ) : (
+      this.props.editCb(this.state.edit, 'additional')
+    )
   }
 
   render() {
@@ -51,24 +68,62 @@ class EditAHAAdd extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <Row>
-            <Carousel>
+            <Carousel activeIndex={this.state.activeIndex} direction={this.state.direction} onSelect={this.carouselChange}>
               {this.state.edit.map((obj, i) => (
-                <div>
+                <Carousel.Item key={i}>
                 <Form>
                     <Col md={4}></Col>
                     <Col md={4}>
-                    {Object.keys(obj).map((key, j) => (
-                      <Row>
-                        <FormControl type='text' value={this.state.edit[i][key]}
-                          onChange={(e) => this.handleChange(e.target.value, i, key)}/>
+                    {Object.keys(obj).slice(1, 6).map((key, j) => (
+                      <Row key={j}>
+                        <FormGroup controlId={`${j}`}>
+                          <ControlLabel>{capitalize(key)}</ControlLabel>
+                          <FormControl type='text' value={this.state.edit[i][key]}
+                            onChange={(e) => this.handleChange(e.target.value, i, key)}/>
+                        </FormGroup>
                         <br/>
                       </Row>
                     ))}
+                    <Row>
+                      <FormGroup controlId={'5'}>
+                        <ControlLabel>Involvement</ControlLabel><br/>
+                        <ToggleButtonGroup type='radio' name='inv' value={this.state.edit[i].involvement}
+                          onChange={(value) => this.handleChange(value, i, 'involvement')}>
+                          <ToggleButton value={'single'}>Single</ToggleButton>
+                          <ToggleButton value={'ongoing'}>Ongoing</ToggleButton>
+                        </ToggleButtonGroup>
+                      </FormGroup>
+                      <br/>
+                    </Row>
+                    <Row>
+                      <FormGroup controlId={'6'}>
+                        <ControlLabel>Type</ControlLabel><br/>
+                          <DropdownButton id='type' title={capitalize(this.state.edit[i].type || "Select...")}
+                            onSelect={(key) => this.handleChange(key, i, 'type')}
+                            >
+                            <MenuItem eventKey="competition">Competition</MenuItem>
+                            <MenuItem eventKey="service">Service</MenuItem>
+                            <MenuItem eventKey="creative">Creative</MenuItem>
+                          </DropdownButton>
+                      </FormGroup>
+                      {!this.props.editingMainActivities ? <FormGroup controlId={'6'}>
+                        <ControlLabel>Main</ControlLabel><br/>
+                          <DropdownButton id='main' title={capitalize(this.state.edit[i].main || "Select...")}
+                            onSelect={(key) => this.handleChange(key, i, 'main')}
+                            >
+                            {this.props.mains.map((main, i) => (
+                              <MenuItem eventKey={`${main.id}`} key={i}>{main.title}</MenuItem>
+                            ))}
+                          </DropdownButton>
+                      </FormGroup> : ''}
+                    </Row>
+                    <br/><br/><br/><br/><br/>
                   </Col>
                   <Col md={4}></Col>
                 </Form>
+                <br/><br/>
                 <br/><br/><br/><br/>
-              </div>
+              </Carousel.Item>
               ))}
             </Carousel>
           </Row>

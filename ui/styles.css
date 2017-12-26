@@ -46,3 +46,7 @@ hr {
   font-family: 'Smaragd';
   font-weight: normal;
 }
+
+.carousel-control.left, .carousel-control.right {
+    background-image: none
+}

@@ -14,7 +14,7 @@ exports.getSchool = (req, res) => {
   let version = req.query.version || null;
   return gatherSchool(id, version)
   .then((dbentries) => {
-    console.log('db entries obj: ', dbentries)
+    // console.log('db entries obj: ', dbentries)
     res.send(dbentries)
   })
   .catch(err => console.log('err in db entries: ', err))
@@ -54,7 +54,7 @@ getSubjects = (studentId, version) => {
         if(curr.dataValues.version === maxVer) acc.push(curr.dataValues);
         return acc;
       }, [])
-      console.log('curr Ps', currPs)
+      // console.log('curr Ps', currPs)
       return currPs;
     })
   } else {
@@ -82,7 +82,7 @@ getLeaderships = (studentId, version) => {
         if(curr.dataValues.version === maxVer) acc.push(curr.dataValues);
         return acc;
       }, [])
-      console.log('curr Ps', currPs)
+      // console.log('curr Ps', currPs)
       return currPs;
     })
   } else {
@@ -110,7 +110,7 @@ getStrengths = (studentId, version) => {
         if(curr.dataValues.version === maxVer) acc.push(curr.dataValues);
         return acc;
       }, [])
-      console.log('curr Ps', currPs)
+      // console.log('curr Ps', currPs)
       return currPs;
     })
   } else {
@@ -129,14 +129,14 @@ exports.addSchool = (req, res) => {
   let id = req.body.id;
   return createSchool(obj, id)
   .then((dbentries) => {
-    console.log('db entries obj: ', dbentries)
+    // console.log('db entries obj: ', dbentries)
     res.send(dbentries)
   })
   .catch(err => console.log('err in db entries: ', err))
 }
 
 createSchool = (obj, id) => {
-  console.log('in add overview')
+  // console.log('in add overview')
   var output = {};
   return Promise.all(obj.subjects.map(g => addSubjects(g, id)))
   .then((subjs) => {

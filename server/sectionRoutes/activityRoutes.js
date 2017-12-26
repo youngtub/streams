@@ -12,7 +12,7 @@ const Activity = db.define('activity', {
   date: Sequelize.DATE,
   reference: Sequelize.STRING,
   location: Sequelize.STRING,
-  ongoing: Sequelize.BOOLEAN,
+  involvement: Sequelize.BOOLEAN,
   type: Sequelize.STRING
 
   Activity.belongsTo(Org, {through: 'orgId'})
@@ -24,14 +24,40 @@ const Activity = db.define('activity', {
 exports.addActivity = (req, res) => {
   let studentId = req.body.id;
   let title = req.body.title;
+  let description = req.body.description;
   let date = req.body.date;
   let reference = req.body.reference;
   let location = req.body.location;
-  let ongoing = req.body.ongoing;
+  let involvement = req.body.involvement;
   let type = req.body.type;
   let mainId = req.body.mainId || null;
+  let version = req.body.version || null;
+  if(version === null) {
+    return Activity.findAll({
+      where: {studentId}
+    })
+    .then((allActs) => {
+      if(allActs.length === 0) version = 0;
+      else {
+        var maxVer = allActs.reduce((acc, curr) => {
+          let tempV = curr.dataValues.version
+          if(tempV > acc) acc = tempV;
+          return acc;
+        }, 0)
+        version = maxVer+1
+      }
+    })
+    .then(() => {
+      return Activity.create({
+        studentId, title, description, date, reference, location, involvement, type, mainId, version
+      })
+      .then((newAct) => {
+        res.send(newAct.dataValues)
+      })
+    })
+  }
   return Activity.create({
-    studentId, title, date, reference, location, ongoing, type, mainId
+    studentId, title, description, date, reference, location, involvement, type, mainId, version
   })
   .then((newAct) => {
     res.send(newAct.dataValues)
@@ -52,7 +78,13 @@ exports.getAllActivities = (req, res) => {
     where: {studentId, mainId: null}
   })
   .then((arr) => {
-    res.send(arr)
+    var maxVer = arr.reduce((acc, curr) => {
+      let tempV = curr.dataValues.version
+      if(tempV > acc) acc = tempV;
+      return acc;
+    }, 0);
+    var output = arr.filter(item => item.dataValues.version === maxVer)
+    res.send(output)
   })
 }
 
@@ -66,7 +98,11 @@ exports.getMains = (req, res) => {
       acc.push(curr.dataValues.id); return acc;
     }, [])
     return Promise.all(mainIds.map(id => getActivitiesOfMain(id, studentId)))
-    .then((arrsOfMainActivities) => res.send(arrsOfMainActivities))
+    .then((arrsOfMainActivities) => {
+      arrOfMains.forEach((main, i) => main.dataValues['activities'] = arrsOfMainActivities[i])
+      console.log('mainsAttached?', arrOfMains[0].dataValues)
+      res.send(arrOfMains)
+    })
     .catch(err => console.log('err fetching mains: ', err))
   })
 };
@@ -75,5 +111,13 @@ getActivitiesOfMain = (mainId, studentId) => {
   return Activity.findAll({
     where: {mainId, studentId}
   })
-  .then((arr) => arr)
+  .then((arr) => {
+    var maxVer = arr.reduce((acc, curr) => {
+      let tempV = curr.dataValues.version
+      if(tempV > acc) acc = tempV;
+      return acc;
+    }, 0);
+    var output = arr.filter(item => item.dataValues.version === maxVer)
+    return output;
+  })
 }

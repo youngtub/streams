@@ -14,7 +14,7 @@ exports.getOverview = (req, res) => {
   let version = req.query.version || null;
   return gatherOverview(id, version)
   .then((dbentries) => {
-    console.log('db entries obj: ', dbentries)
+    // console.log('db entries obj: ', dbentries)
     res.send(dbentries)
   })
   .catch(err => console.log('err in db entries: ', err))
@@ -54,7 +54,7 @@ getPers = (studentId, version) => {
         if(curr.dataValues.version === maxVer) acc.push(curr.dataValues);
         return acc;
       }, [])
-      console.log('curr Ps', currPs)
+      // console.log('curr Ps', currPs)
       return currPs;
     })
   } else {
@@ -127,7 +127,7 @@ exports.addOverview = (req, res) => {
   let id = req.body.id;
   return createOverview(obj, id)
   .then((dbentries) => {
-    console.log('db entries obj: ', dbentries)
+    // console.log('db entries obj: ', dbentries)
     res.send(dbentries)
   })
   .catch(err => console.log('err in db entries: ', err))

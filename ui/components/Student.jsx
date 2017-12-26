@@ -15,7 +15,7 @@ class Student extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: 1
+      tab: 2
     }
   }
 
@@ -32,7 +32,7 @@ class Student extends React.Component {
                 <BigPicture student={this.props.user.loggedIn}/>
               </Tab>
               <Tab eventKey={2} title="AHA Moments">
-                <AHA />
+                <AHA student={this.props.user.loggedIn}/>
               </Tab>
               <Tab eventKey={3} title="Application">
                 apps

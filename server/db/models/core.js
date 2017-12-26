@@ -117,16 +117,27 @@ const Org = db.define('org', {
 
 Org.sync({force: false});
 
+// Main
+
+const Main = db.define('main', {
+  title:  Sequelize.STRING,
+  version: Sequelize.INTEGER
+});
+
+Main.belongsTo(Student, {through: 'studentId'})
+Main.sync({force: false});
+
 // Activity
 
 const Activity = db.define('activity', {
   title:  Sequelize.STRING,
   description: Sequelize.STRING,
-  date: Sequelize.DATE,
+  date: Sequelize.STRING,
   reference: Sequelize.STRING,
   location: Sequelize.STRING,
-  ongoing: Sequelize.BOOLEAN,
-  type: Sequelize.STRING
+  involvement: Sequelize.STRING,
+  type: Sequelize.STRING,
+  version: Sequelize.INTEGER
 });
 
 Activity.belongsTo(Org, {through: 'orgId'})
@@ -134,15 +145,6 @@ Activity.belongsTo(Main, {through: 'mainId'})
 Activity.belongsTo(Student, {through: 'studentId'})
 
 Activity.sync({force: false});
-
-// Main
-
-const Main = db.define('main', {
-  title:  Sequelize.STRING,
-});
-
-Main.belongsTo(Student, {through: 'studentId'})
-Main.sync({force: false});
 
 // participation
 

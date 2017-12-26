@@ -13,8 +13,11 @@ const Header = (props) => {
       <Col md={2}>
         <br/>
         <h1 className='mont'>StreamsCC</h1>
+        <img src='https://drive.google.com/uc?id=19VpLeosjQxzJytp9OH28a_4DgfWBpwqw' style={betaStyle} />
       </Col>
-      <Col md={5}></Col>
+      <Col md={1}>
+      </Col>
+      <Col md={4}></Col>
       <Col md={4} className='right'>
         <br/><br/>
         {props.user.loggedIn ? (
@@ -38,6 +41,10 @@ const Header = (props) => {
     </Grid>
   )
 };
+
+const betaStyle = {
+  height: '7vh'
+}
 
 const imgStyle = {
   height: '15vh'
