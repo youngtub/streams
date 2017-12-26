@@ -160,7 +160,7 @@ addSubjects = (p, id) => {
   return Subject.create({
     title: p.title,
     level: p.level || '',
-    version: p.version,
+    version: p.version+1,
     studentId: id
   })
   .then(newP => newP)
@@ -171,7 +171,7 @@ addLeadership = (v, id) => {
   return Leadership.create({
     title: v.title,
     role: v.role || '',
-    version: v.version,
+    version: v.version+1,
     studentId: id
   })
   .then(newV => newV)
@@ -182,7 +182,7 @@ addStrengths = (g, id) => {
   return Strength.create({
     title: g.title,
     reason: g.reason || '',
-    version: g.version,
+    version: g.version+1,
     studentId: id
   })
   .then(newGoal => newGoal)

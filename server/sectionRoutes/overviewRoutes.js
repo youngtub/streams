@@ -156,7 +156,7 @@ createOverview = (obj, id) => {
 addPers = (p, id) => {
   return Personality.create({
     title: p.title,
-    version: p.version,
+    version: p.version+1,
     studentId: id
   })
   .then(newP => newP)
@@ -166,7 +166,7 @@ addPers = (p, id) => {
 addValues = (v, id) => {
   return Value.create({
     title: v.title,
-    version: v.version,
+    version: v.version+1,
     studentId: id
   })
   .then(newV => newV)
@@ -177,7 +177,7 @@ addGoals = (g, id) => {
   return Goal.create({
     title: g.title,
     field: g.field || '',
-    version: g.version,
+    version: g.version+1,
     studentId: id
   })
   .then(newGoal => newGoal)

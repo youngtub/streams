@@ -15,7 +15,7 @@ class Student extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: 2
+      tab: 1
     }
   }
 

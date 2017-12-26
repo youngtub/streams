@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Row, Col, Modal, FormGroup, FormControl} from 'react-bootstrap';
+import {Grid, Row, Col, Modal, FormGroup, FormControl, DropdownButton, MenuItem} from 'react-bootstrap';
 import {Button, Icon, Image, Input, List, Form} from 'semantic-ui-react';
 
 class EditBP extends React.Component {
@@ -37,6 +37,13 @@ class EditBP extends React.Component {
     })
   }
 
+  delete = (key, eventKey) => {
+    var edit = this.state.edit;
+    var toSplice = edit[key];
+    edit[key].splice(+eventKey, 1);
+    this.setState({edit})
+  }
+
   submit = () => {
     this.props.editCb(this.state.edit, this.props.section)
   }
@@ -61,6 +68,15 @@ class EditBP extends React.Component {
                     </Row>
                   ))}
                   <Button icon='plus' onClick={() => this.addField(key)} />
+                  <FormGroup controlId={'del'}>
+                      <DropdownButton id='del' title={"Delete..."}
+                        onSelect={(eventKey) => this.delete(key, eventKey, 'delete')}
+                        >
+                        {this.state.edit[key].map((main, j) => (
+                          <MenuItem eventKey={`${j}`} key={i}>{main.title}</MenuItem>
+                        ))}
+                      </DropdownButton>
+                  </FormGroup>
               </Col>
               ))}
             </Form>

@@ -19,16 +19,20 @@ class BigPicture extends React.Component {
   }
 
   componentDidMount() {
+    this.refreshState()
+  }
+
+  refreshState = () => {
     var objForState = {};
     let paramsO = {section: 'overview', id: this.props.student.id}
     return axios.get('/api/student/getOverview', {params: paramsO})
     .then((res) => {
-      console.log('res from overview: ', res.data)
+      // console.log('res from overview: ', res.data)
       objForState['overview'] = res.data;
       let paramsS = {section: 'school', id: this.props.student.id}
       return axios.get('/api/student/getSchool', {params: paramsS})
       .then((respo) => {
-        console.log('res from school: ', respo.data)
+        // console.log('res from school: ', respo.data)
         objForState['school'] = respo.data;
         this.setState({
           overview: objForState.overview,
@@ -75,6 +79,7 @@ class BigPicture extends React.Component {
       return axios.post(q, body)
       .then((res) => {
         console.log('res from student add sec: ', res)
+        this.refreshState();
       })
     })
   }
