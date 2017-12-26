@@ -52,6 +52,12 @@ class EditAHAAdd extends React.Component {
     })
   }
 
+  delete = (i) => {
+    var edit = this.state.edit.slice();
+    edit.splice(i, 1);
+    this.setState({edit})
+  }
+
   submit = () => {
     this.props.editingMainActivities ? (
       this.props.editMainActivities(this.state.edit)
@@ -116,6 +122,9 @@ class EditAHAAdd extends React.Component {
                             ))}
                           </DropdownButton>
                       </FormGroup> : ''}
+                    </Row>
+                    <Row>
+                      <Button content='Delete' icon='x' color='red' onClick={()=>this.delete(i)}/>
                     </Row>
                     <br/><br/><br/><br/><br/>
                   </Col>

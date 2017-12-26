@@ -141,7 +141,8 @@ class AHA extends React.Component {
       <Grid fluid={true} className='bg'>
         <br/><br/>
         <Row className='lists'>
-          <Col md={6}>
+          <Col md={1}></Col>
+          <Col md={5}>
             <h3 className='center'>Primary</h3>
             <hr/>
             {this.state.mains.map((main, i) => (
