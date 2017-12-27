@@ -7,7 +7,8 @@ class Login extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      code: ''
     }
   }
 
@@ -20,8 +21,10 @@ class Login extends React.Component {
   submit = () => {
     let name = this.state.username;
     let password = this.state.password;
-    this.props.login(name, password)
-    this.props.toggleModal()
+    if(this.state.code === '009') {
+      this.props.login(name, password)
+      this.props.toggleModal()
+    }
   }
 
   render() {
@@ -47,7 +50,16 @@ class Login extends React.Component {
               Password:
             </Col>
             <Col md={4}>
-              <Input onChange={(e) => this.handleChange(e.target.value, 'password')} value={this.state.password}/>
+              <Input type='password' onChange={(e) => this.handleChange(e.target.value, 'password')} value={this.state.password}/>
+            </Col>
+          </Row>
+          <br/>
+          <Row>
+            <Col md={2}>
+              Teacher Code:
+            </Col>
+            <Col md={4}>
+              <Input onChange={(e) => this.handleChange(e.target.value, 'code')} value={this.state.code}/>
             </Col>
           </Row>
 

@@ -207,7 +207,7 @@ class AHA extends React.Component {
             </Row>
           </Col>
           <Col md={2}>
-            <Button content='Add Activity' icon='plus' color='blue' onClick={()=>this.openEdit(1, 'add')} />
+            <Button content='Add Activity' icon='plus' color='blue' onClick={()=>this.openEdit(1)} />
           </Col>
         </Row>
         <br/><br/>

@@ -19,7 +19,7 @@ class EditAHAAdd extends React.Component {
   componentDidMount() {
     console.log('props: ', this.props)
     this.setState({
-      edit: this.props.editing
+      edit: this.props.editing || []
     }, () => {
       console.log('state in edit', this.state)
     })
@@ -126,12 +126,10 @@ class EditAHAAdd extends React.Component {
                     <Row>
                       <Button content='Delete' icon='x' color='red' onClick={()=>this.delete(i)}/>
                     </Row>
-                    <br/><br/><br/><br/><br/>
+                    <br/>
                   </Col>
                   <Col md={4}></Col>
                 </Form>
-                <br/><br/>
-                <br/><br/><br/><br/>
               </Carousel.Item>
               ))}
             </Carousel>

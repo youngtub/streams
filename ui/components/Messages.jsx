@@ -25,7 +25,7 @@ class Messages extends React.Component {
   }
 
   submit = () => {
-    let newMsgObj = {from: 'student', text: this.state.reply, timestamp: (new Date()).toString()}
+    let newMsgObj = {from: this.props.student.name, text: this.state.reply, timestamp: (new Date()).toString()}
     let newMessages = this.state.messages.slice();
     newMessages.push(newMsgObj);
     this.setState({
@@ -42,7 +42,7 @@ class Messages extends React.Component {
         <Comment.Group>
           {this.state.messages.length > 0 ? this.state.messages.map((msg, i) => (
             <Comment>
-              <Comment.Avatar src={avatars[msg.from]} />
+              <Comment.Avatar src={avatars[msg.from] || 'https://image.flaticon.com/icons/svg/201/201818.svg'} />
               <Comment.Content>
                 <Comment.Author as='a'>{msg.from}</Comment.Author>
                 <Comment.Metadata>

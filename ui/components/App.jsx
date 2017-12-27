@@ -62,7 +62,7 @@ class App extends React.Component {
                 </Col>
 
                 <Col md={3}>
-                  <Messages />
+                  <Messages student={this.props.user.loggedIn}/>
                 </Col>
               </Row>
             ) : (
